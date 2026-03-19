@@ -2,6 +2,7 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
+
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void proccesInput(GLFWwindow* window);
 
@@ -28,6 +29,16 @@ int main ()
         return -1;
     }
 
+    float vertices[] = {
+      -0.5f, -0.5f, 0.0f,
+       0.5f, -0.5f, 0.0f,
+       0.0f, 0.5f , 0.0f
+    };
+
+    unsigned int VOB;
+    glGenBuffers(1, &VOB);
+    glBindBuffer(GL_ARRAY_BUFFER, VOB);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW):
 
 
     
