@@ -38,7 +38,7 @@ int main ()
     unsigned int VOB;
     glGenBuffers(1, &VOB);
     glBindBuffer(GL_ARRAY_BUFFER, VOB);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW):
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
 
     
@@ -47,6 +47,8 @@ int main ()
     while (!glfwWindowShouldClose(window))
     {
         proccesInput(window);
+        glClearColor(0.2f,0.3f,0.3f,1.0f);
+        glClear(GL_COLOR_BUFFER_BIT);
         
         glfwSwapBuffers(window);
         glfwPollEvents();
