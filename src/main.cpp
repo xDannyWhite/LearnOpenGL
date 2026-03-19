@@ -3,6 +3,8 @@
 #include <GLFW/glfw3.h>
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
+void proccesInput(GLFWwindow* window);
+
 
 int main ()
 {
@@ -26,15 +28,15 @@ int main ()
         return -1;
     }
 
-    
-    glfwSetFramebufferSizeCallback(window,framebuffer_size_callback);
-    
-    
+
 
     
+    glfwSetFramebufferSizeCallback(window,framebuffer_size_callback);
 
     while (!glfwWindowShouldClose(window))
     {
+        proccesInput(window);
+        
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
@@ -45,4 +47,14 @@ int main ()
 void framebuffer_size_callback(GLFWwindow *window, int width, int height)
 {
     glViewport(0,0,width,height);
+}
+
+void proccesInput(GLFWwindow *window)
+{
+    if (glfwGetKey(window, GLFW_KEY_DELETE) == GLFW_PRESS)
+    {
+        glfwSetWindowShouldClose(window, true);
+    }
+    
+
 }
