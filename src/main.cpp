@@ -13,6 +13,8 @@ std::string LoadFile(const std::string &path);
 
 int main ()
 {
+
+    //INIT GLFW and set version and coreprofil
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
@@ -25,6 +27,8 @@ int main ()
         glfwTerminate();
         return -1;
     }
+
+    // Create Context and check if glad is propably loaded.
     glfwMakeContextCurrent(window);
 
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
@@ -33,16 +37,26 @@ int main ()
         return -1;
     }
 
+    // create Vertices float array and store the shape in Normalized Device Coordinates (NDC)
+
     float vertices[] = {
       -0.5f, -0.5f, 0.0f,
        0.5f, -0.5f, 0.0f,
        0.0f, 0.5f , 0.0f
     };
 
+
+    //creating VertexBufferObject and VertexArrayObject and binding them
+    //creating Shader frag and vert files. Read them convert into string and than convert into const char* to load file for the shaderpogramm creation.
+
     unsigned int VOB;
     glGenBuffers(1, &VOB);
     glBindBuffer(GL_ARRAY_BUFFER, VOB);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
+    unsigned int VAO;
+    glGenVertexArrays(1, &VAO); 
+    glBindVertexArray(VAO);
 
     std::string vertxCode = LoadFile("src/traiagle.vert");
     const char* vertxSrc = vertxCode.c_str();
@@ -55,6 +69,7 @@ int main ()
     char infoLog[512];
     glGetShaderiv(vertexShader,GL_COMPILE_STATUS, &success);
     
+    //Checking if not loaded successfully.
     if (!success)
     {
         glGetShaderInfoLog(vertexShader,512,NULL, infoLog);
@@ -90,23 +105,13 @@ int main ()
         glGetProgramInfoLog(shaderProgram,512,NULL, infoLog);
     }
     
-  
+  // Deleting cause after binding and linking dont need anymore.
     glDeleteShader(vertexShader);
     glDeleteShader(fragShader);
     
 
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
-
-    unsigned int VAO;
-    glGenVertexArrays(1, &VAO); 
-
-    glBindVertexArray(VAO);
-    glDrawArrays(GL_TRIANGLES,0,3);
-
- 
-
-
     
     glfwSetFramebufferSizeCallback(window,framebuffer_size_callback);
 
@@ -115,12 +120,11 @@ int main ()
         proccesInput(window);
         glClearColor(0.2f,0.3f,0.3f,1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
-        unsigned int VAO;
-        glGenVertexArrays(1, &VAO); 
 
-        glBindVertexArray(VAO);
-        glDrawArrays(GL_TRIANGLES,0,3);
         glUseProgram(shaderProgram);
+        glBindVertexArray(VAO);
+        glDrawArrays(GL_TRIANGLES,0, 3);
+  
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
