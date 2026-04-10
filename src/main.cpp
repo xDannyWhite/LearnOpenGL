@@ -4,6 +4,11 @@
 #include <fstream>
 #include <sstream>
 #include <string>
+#include "shader.hpp"
+
+
+
+
 
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
@@ -13,7 +18,7 @@ std::string LoadFile(const std::string &path);
 
 int main ()
 {
-
+    
     //INIT GLFW and set version and coreprofil
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -44,22 +49,25 @@ int main ()
        0.5f, -0.5f, 0.0f,
        0.0f, 0.5f , 0.0f
     };
-
+    
 
     //creating VertexBufferObject and VertexArrayObject and binding them
     //creating Shader frag and vert files. Read them convert into string and than convert into const char* to load file for the shaderpogramm creation.
+    unsigned int VAO;
+    glGenVertexArrays(1, &VAO); 
+    glBindVertexArray(VAO);
 
     unsigned int VOB;
     glGenBuffers(1, &VOB);
     glBindBuffer(GL_ARRAY_BUFFER, VOB);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
-    unsigned int VAO;
-    glGenVertexArrays(1, &VAO); 
-    glBindVertexArray(VAO);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
 
-    std::string vertxCode = LoadFile("src/traiagle.vert");
+    std::string vertxCode = LoadFile("shaders/traiangle.vert");
     const char* vertxSrc = vertxCode.c_str();
+    
 
     unsigned int vertexShader;
     vertexShader = glCreateShader(GL_VERTEX_SHADER);
@@ -77,14 +85,14 @@ int main ()
     }
 
 
-    std::string fragCode = LoadFile("src/color.frag");
+    std::string fragCode = LoadFile("shaders/color.frag");
     const char* fragSrc = fragCode.c_str();
     unsigned int fragShader;
     fragShader = glCreateShader(GL_FRAGMENT_SHADER);
     glShaderSource(fragShader, 1, &fragSrc, NULL);
     glCompileShader(fragShader);
 
-  ;
+  
     glGetShaderiv(fragShader,GL_COMPILE_STATUS, &success);
 
     if (!success)
@@ -106,12 +114,10 @@ int main ()
     }
     
   // Deleting cause after binding and linking dont need anymore.
-    glDeleteShader(vertexShader);
-    glDeleteShader(fragShader);
+  
     
 
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-    glEnableVertexAttribArray(0);
+
     
     glfwSetFramebufferSizeCallback(window,framebuffer_size_callback);
 
