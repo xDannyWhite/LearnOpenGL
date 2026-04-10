@@ -11,16 +11,16 @@ class Shader
 private:
     
     unsigned int shaderID;
-    unsigned int VAO;
-    unsigned int VOB;
-    
+
+
+
 public:
     
-    Shader(float vertices[], const std::string &pathVertexFile, const std::string &pathFragFile );
+    Shader(const std::string &pathVertexFile, const std::string &pathFragFile );
     void use();
     void drawArray();
-
-    ~Shader();
+    
+   
 
 };
 
