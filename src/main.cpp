@@ -45,10 +45,16 @@ int main ()
     // create Vertices float array and store the shape in Normalized Device Coordinates (NDC)
 
     float vertices[] = {
-      -0.5f, -0.5f, 0.0f,
-       0.5f, -0.5f, 0.0f,
-       0.0f, 0.5f , 0.0f
+    0.5f, 0.5f, 0.0f,
+    0.5f, -0.5f , 0.0f,
+    -0.5f, -0.5f , 0.0f,
+    -0.5f, 0.5f, 0.0f    
     };
+   
+   unsigned int indices[] {
+        0,1,3,
+        1,2,3
+   };
     
     unsigned int VAO;
     glGenVertexArrays(1, &VAO);
@@ -58,8 +64,14 @@ int main ()
     glGenBuffers(1, &VOB);
     glBindBuffer(GL_ARRAY_BUFFER, VOB);
     glBufferData(GL_ARRAY_BUFFER,sizeof(vertices), vertices, GL_STATIC_DRAW);
+    unsigned int EBO;
+    glGenBuffers(1, &EBO);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER,sizeof(indices), indices, GL_STATIC_DRAW);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
+
+    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
   
     Shader traiangle("shaders/traiangle.vert", "shaders/color.frag");
     
@@ -71,11 +83,12 @@ int main ()
     while (!glfwWindowShouldClose(window))
     {
         proccesInput(window);
-        glClearColor(0.2f,0.3f,0.3f,1.0f);
+        glClearColor(0.0f,1.0f,0.0f,1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
         traiangle.use();
         glBindVertexArray(VAO);
         traiangle.drawArray();
+       
      
   
         glfwSwapBuffers(window);

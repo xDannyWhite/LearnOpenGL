@@ -12,16 +12,12 @@ private:
     
     unsigned int shaderID;
 
-
-
 public:
     
     Shader(const std::string &pathVertexFile, const std::string &pathFragFile );
     void use();
     void drawArray();
     
-   
-
 };
 
 

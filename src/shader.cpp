@@ -22,7 +22,7 @@ Shader::Shader(const std::string &pathVertexFile, const std::string &pathFragFil
         glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
         std::cout << "Error: SHADER::VERTX compilation failed!" << infoLog << std::endl;
     }
-    
+   
     std::string fragmentCode = Assetmanager::LoadFile(pathFragFile);
     const char* fragmentSrc = fragmentCode.c_str();
 
@@ -62,7 +62,7 @@ void Shader::use()
 
 void Shader::drawArray()
 {
-    glDrawArrays(GL_TRIANGLES, 0, 3);
+    glDrawElements(GL_TRIANGLES,6,GL_UNSIGNED_INT,0);
 }
 
 
