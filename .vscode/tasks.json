@@ -1,0 +1,17 @@
+{
+    
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Build",
+            "type": "shell",
+            "command": "./build.sh"
+        },
+        {
+            "label": "Run",
+            "type": "shell",
+            "command": "./run"
+            
+        }
+    ]
+}
