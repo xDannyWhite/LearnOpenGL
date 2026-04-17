@@ -15,9 +15,10 @@ private:
 public:
     
     Shader(const std::string &pathVertexFile, const std::string &pathFragFile );
+    unsigned int getShaderID();
     void use();
     void drawArray();
-    
+    void setUniformFloat(const char* UniformName, float a);
 };
 
 

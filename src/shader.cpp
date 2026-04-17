@@ -54,6 +54,11 @@ Shader::Shader(const std::string &pathVertexFile, const std::string &pathFragFil
 
 }
 
+unsigned int Shader::getShaderID()
+{
+    return shaderID;
+}
+
 void Shader::use()
 {
     glUseProgram(shaderID);
@@ -62,7 +67,12 @@ void Shader::use()
 
 void Shader::drawArray()
 {
-    glDrawElements(GL_TRIANGLES,6,GL_UNSIGNED_INT,0);
+    glDrawArrays(GL_TRIANGLES, 0, 3);
+
 }
 
-
+void Shader::setUniformFloat(const char *UniformName, float a)
+{
+    int getVertexAttributeLocation = glGetUniformLocation(getShaderID(), UniformName);
+    glUniform1f(getVertexAttributeLocation, a);
+}
