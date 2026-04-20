@@ -11,6 +11,7 @@ class Shader
 private:
     
     unsigned int shaderID;
+    
 
 public:
     
@@ -18,7 +19,9 @@ public:
     unsigned int getShaderID();
     void use();
     void drawArray();
+    void drawElement();
     void setUniformFloat(const char* UniformName, float a);
+
 };
 
 

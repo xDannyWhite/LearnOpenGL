@@ -71,8 +71,15 @@ void Shader::drawArray()
 
 }
 
+void Shader::drawElement()
+{
+    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+}
+
 void Shader::setUniformFloat(const char *UniformName, float a)
 {
     int getVertexAttributeLocation = glGetUniformLocation(getShaderID(), UniformName);
     glUniform1f(getVertexAttributeLocation, a);
 }
+
+
