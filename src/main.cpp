@@ -7,9 +7,13 @@
 #include <string>
 #include "shader.hpp"
 #include "stb_image.h"
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+#include <cmath>
 
 
-
+ 
 
 
 
@@ -131,14 +135,27 @@ int main ()
    
     glfwSetFramebufferSizeCallback(window,framebuffer_size_callback);
 
+    traiangle.use();
+    int modelLoc = glGetUniformLocation(traiangle.getShaderID(),"model");
+
+
     while (!glfwWindowShouldClose(window))
     {
+        float dt = glfwGetTime();
+
+        glm::vec3 pos = {xOffset,yOffset,0};
+        glm::vec3 scale = {1,2,1};
+        float rotation = glm::radians(0.0f);
+        glm::mat4 model = glm::mat4(1.0f);
+        model = glm::translate(model,pos);
+        model = glm::rotate(model,dt,glm::vec3(0,0,1));
+        model = glm::scale(model, scale);
+        
         proccesInput(window,xOffset,yOffset);
         glClearColor(0.0f,1.0f,0.0f,1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
         traiangle.use();
-        traiangle.setUniformFloat("xOffset",xOffset);
-        traiangle.setUniformFloat("yOffset",yOffset);        
+        glUniformMatrix4fv(modelLoc,1, GL_FALSE,glm::value_ptr(model));
   
         glBindVertexArray(VAO);
         traiangle.drawElement();
